@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: #1f3c88;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+/* === КАРТА === */
+.map-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+#tomsk-map {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.district {
+    fill: #c8e6c9;
+    stroke: #2f4f4f;
+    stroke-width: 1;
+    cursor: pointer;
+    transition: fill 0.25s ease, transform 0.25s ease;
+    transform-origin: center;
+}
+
+/* НАВЕДЕНИЕ */
+.district:hover {
+    fill: #08b90d;
+
+    /* эффект "поднятия" */
+    transform: translateY(-4px);
+
+    /* тень */
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+}
+
+/* МОДАЛЬНОЕ ОКНО */
+.modal {
+    display: none; /* по умолчанию скрыто */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* затемнение фона */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* Кнопка закрытия */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: red;
+}
+
+
+.fires-low {
+    fill: #90EEB2 !important; /* самый светлый */
+}
+
+.fires-medium {
+    fill: #46BA71 !important;
+}
+
+.fires-high {
+    fill: #3DEA7D !important;
+}
+
+.fires-critical {
+    fill: #6AD491 !important; /* самый «яркий» */
+}
+
+
+
+
