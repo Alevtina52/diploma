@@ -11,6 +11,12 @@ Route::get('/hash', function () {
 });
 
 
+Route::get('/hash', function () {
+    return bcrypt('123456');
+});
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -31,4 +37,6 @@ Route::get('/admin/map', [AdminMapController::class, 'index'])
     ->name('admin.map');
 
 Route::resource('fires', FireController::class);
+
+
 
