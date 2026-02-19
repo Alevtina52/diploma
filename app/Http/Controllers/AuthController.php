@@ -31,7 +31,6 @@ class AuthController extends Controller
 
             // Перегенерация сессии (защита)
             $request->session()->regenerate();
-
             return redirect()->intended('/dashboard');
         }
 
