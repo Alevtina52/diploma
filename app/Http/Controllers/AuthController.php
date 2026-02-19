@@ -2,35 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Services\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    /**
-     * Показать форму входа
-     */
+    private AuthService $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    /**
-     * Обработка входа
-     */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        // Валидация
-        $credentials = $request->validate([
-            'login' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
-        // Попытка авторизации
-        if (Auth::attempt($credentials)) {
-
-            // Перегенерация сессии (защита)
-            $request->session()->regenerate();
+        if ($this->authService->login($request->validated(), $request)) {
             return redirect()->intended('/dashboard');
         }
 
@@ -39,15 +31,9 @@ class AuthController extends Controller
         ])->onlyInput('login');
     }
 
-    /**
-     * Выход
-     */
     public function logout(Request $request)
     {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $this->authService->logout($request);
 
         return redirect('/login');
     }
