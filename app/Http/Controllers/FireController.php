@@ -6,6 +6,8 @@ use App\Models\District;
 use App\Models\Fire;
 use App\Services\FireService;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreFireRequest;
+use App\Http\Requests\UpdateFireRequest;
 
 class FireController extends Controller
 {
@@ -34,16 +36,9 @@ class FireController extends Controller
         return view('fires.create', compact('districts', 'selectedDistrict'));
     }
 
-    public function store(Request $request)
+    public function store(StoreFireRequest $request)
     {
-        $validated = $request->validate([
-            'district_id' => 'required|exists:districts,id',
-            'area' => 'required|numeric',
-            'status' => 'required|string',
-            'fire_date' => 'required|date',
-        ]);
-
-        $this->fireService->create($validated);
+        $this->fireService->create($request->validated());
 
         return redirect()
             ->route('admin.map')
@@ -57,16 +52,9 @@ class FireController extends Controller
         return view('fires.edit', compact('fire', 'districts'));
     }
 
-    public function update(Request $request, Fire $fire)
+    public function update(UpdateFireRequest $request, Fire $fire)
     {
-        $validated = $request->validate([
-            'district_id' => 'required|exists:districts,id',
-            'area' => 'required|numeric',
-            'status' => 'required|string',
-            'fire_date' => 'required|date',
-        ]);
-
-        $this->fireService->update($fire, $validated);
+        $this->fireService->update($fire, $request->validated());
 
         return redirect()
             ->route('fires.index')
