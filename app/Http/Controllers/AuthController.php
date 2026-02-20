@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
+use App\DTO\LoginDTO;
 
 class AuthController extends Controller
 {
@@ -22,7 +23,12 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        if ($this->authService->login($request->validated(), $request)) {
+        $dto = new LoginDTO(
+            login: $request->login,
+            password: $request->password
+        );
+
+        if ($this->authService->login($dto, $request)) {
             return redirect()->intended('/dashboard');
         }
 
@@ -30,7 +36,6 @@ class AuthController extends Controller
             'login' => 'Неверный логин или пароль',
         ])->onlyInput('login');
     }
-
     public function logout(Request $request)
     {
         $this->authService->logout($request);

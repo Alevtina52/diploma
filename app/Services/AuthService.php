@@ -2,21 +2,24 @@
 
 namespace App\Services;
 
+use App\DTO\LoginDTO;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AuthService
 {
-    public function login(array $credentials, Request $request): bool
+    public function login(LoginDTO $dto, Request $request): bool
     {
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt([
+            'login' => $dto->login,
+            'password' => $dto->password,
+        ])) {
             $request->session()->regenerate();
             return true;
         }
 
         return false;
     }
-
     public function logout(Request $request): void
     {
         Auth::logout();
