@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -52,4 +53,13 @@ Route::prefix('admin')
 
         Route::post('/users', [UserController::class, 'store'])
             ->name('users.store');
+    });
+
+
+Route::middleware(['auth'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        Route::resource('news', NewsController::class);
     });
