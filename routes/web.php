@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DistrictController;
@@ -38,5 +39,17 @@ Route::get('/admin/map', [AdminMapController::class, 'index'])
 
 Route::resource('fires', FireController::class);
 
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('auth')
+    ->group(function () {
 
+        Route::get('/users', [UserController::class, 'index'])
+            ->name('users.index');
 
+        Route::get('/users/create', [UserController::class, 'create'])
+            ->name('users.create');
+
+        Route::post('/users', [UserController::class, 'store'])
+            ->name('users.store');
+    });
