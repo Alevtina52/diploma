@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ContestController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
@@ -62,4 +63,12 @@ Route::middleware(['auth'])
     ->group(function () {
 
         Route::resource('news', NewsController::class);
+    });
+
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('auth')
+    ->group(function () {
+        Route::resource('contests', ContestController::class);
     });
