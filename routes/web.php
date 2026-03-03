@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\ContestController;
+use App\Http\Controllers\Admin\ContestController as AdminContestController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\FireController;
 use App\Http\Controllers\AdminMapController;
+use App\Http\Controllers\ContestController;
 
 Route::get('/hash', function () {
     return bcrypt('123456');
@@ -70,5 +71,14 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware('auth')
     ->group(function () {
-        Route::resource('contests', ContestController::class);
+        Route::resource('contests', AdminContestController::class);
     });
+
+Route::get('/contests', [ContestController::class, 'index'])
+    ->name('contests.index');
+
+Route::get('/contests/{contest}', [ContestController::class, 'show'])
+    ->name('contests.show');
+
+Route::post('/contests/{contest}/apply', [ContestController::class, 'apply'])
+    ->name('contests.apply');
