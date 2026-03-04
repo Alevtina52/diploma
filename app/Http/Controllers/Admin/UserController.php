@@ -24,11 +24,16 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $this->userService->create($request->validated());
+        $data = $request->validate([
+            'name'     => 'required|string|max:255',
+            'login'    => 'required|string|max:255|unique:users,login',
+            'password' => 'required|string|min:6',
+            'role'     => 'required|in:admin,user',
+        ]);
 
-        return redirect()
-            ->route('admin.users.index')
-            ->with('success', 'Пользователь успешно создан');
+        $this->userService->create($data);
+
+        return redirect()->route('admin.users.index');
     }
 
     public function index()
